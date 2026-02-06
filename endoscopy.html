@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위·대장내시경 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 소개 섹션 */
+        .intro-section {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .intro-section p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .intro-section .highlight {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+
+        /* 장비 섹션 */
+        .equipment-section {
+            background: #2a2a2a;
+            padding: 20px 15px;
+        }
+
+        .equipment-card {
+            margin-bottom: 20px;
+        }
+
+        .equipment-image {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .equipment-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .equipment-placeholder {
+            height: 180px;
+            background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .equipment-placeholder::after {
+            content: '';
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .equipment-title {
+            background: rgba(0,0,0,0.5);
+            padding: 10px 12px;
+        }
+        .equipment-title h3 {
+            color: #4ecdc4;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        .equipment-title span {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .equipment-desc {
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 8px 8px;
+        }
+        .equipment-desc p {
+            color: #ccc;
+            font-size: 11px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .equipment-desc p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* CO2 장비 */
+        .co2-card {
+            display: flex;
+            gap: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            align-items: center;
+        }
+        .co2-image {
+            width: 120px;
+            height: 100px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .co2-image svg {
+            width: 50px;
+            height: 50px;
+            fill: #4ecdc4;
+            opacity: 0.5;
+        }
+        .co2-info h3 {
+            color: #4ecdc4;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .co2-info p {
+            color: #aaa;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* 준비사항 섹션 */
+        .prep-section {
+            background: #fff;
+            padding: 20px 15px;
+        }
+        .prep-section h2 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d8c8c;
+        }
+        .prep-item {
+            margin-bottom: 20px;
+        }
+        .prep-item h3 {
+            font-size: 14px;
+            color: #2d8c8c;
+            margin-bottom: 8px;
+        }
+        .prep-item h4 {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 3px solid #2d8c8c;
+        }
+        .prep-item ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+        .prep-item li {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.8;
+            padding-left: 12px;
+            position: relative;
+        }
+        .prep-item li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: #2d8c8c;
+            font-weight: bold;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .intro-section { padding: 35px 30px; }
+            .intro-section p { font-size: 16px; }
+            .equipment-section { padding: 25px 20px; }
+            .equipment-placeholder { height: 220px; }
+            .equipment-title h3 { font-size: 16px; }
+            .equipment-desc p { font-size: 13px; }
+            .co2-image { width: 150px; height: 120px; }
+            .co2-info h3 { font-size: 15px; }
+            .co2-info p { font-size: 13px; }
+            .prep-section { padding: 25px 20px; }
+            .prep-section h2 { font-size: 18px; }
+            .prep-item h3 { font-size: 16px; }
+            .prep-item h4 { font-size: 14px; }
+            .prep-item li { font-size: 13px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .intro-section { padding: 45px 50px; }
+            .intro-section p { font-size: 18px; line-height: 2.0; }
+            .equipment-section { padding: 35px 30px; }
+            .equipment-placeholder { height: 280px; }
+            .equipment-title { padding: 14px 16px; }
+            .equipment-title h3 { font-size: 18px; }
+            .equipment-title span { font-size: 14px; }
+            .equipment-desc { padding: 18px; }
+            .equipment-desc p { font-size: 14px; }
+            .co2-card { padding: 20px; }
+            .co2-image { width: 180px; height: 140px; }
+            .co2-info h3 { font-size: 16px; }
+            .co2-info p { font-size: 14px; }
+            .prep-section { padding: 35px 40px; }
+            .prep-section h2 { font-size: 20px; }
+            .prep-item h3 { font-size: 17px; }
+            .prep-item h4 { font-size: 15px; }
+            .prep-item li { font-size: 14px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 소개 섹션 -->
+    <div class="intro-section">
+        <p>단일 위·대장내시경 및 용종 절제 가능합니다.</p>
+        <p>조기 위암, 조기 대장암의 <span class="highlight">내시경 절제술</span></p>
+        <p>치료 내시경에 대한 의뢰, 상담, 시술 가능합니다.</p>
+    </div>
+
+    <!-- 장비 섹션 -->
+    <div class="equipment-section">
+        <!-- FUJIFILM ELUXEO 7000 -->
+        <div class="equipment-card">
+            <div class="equipment-image">
+                <div class="equipment-placeholder"></div>
+                <div class="equipment-title">
+                    <h3>FUJIFILM ELUXEO 7000</h3>
+                    <span>(위, 대장내시경)</span>
+                </div>
+            </div>
+            <div class="equipment-desc">
+                <p>백색광, BLI, LCI 모드 제공, ANTI-BLUR 기능(선명한 화질 선별로 자동화)의 떨림의 확인과 점막 안의 물질을 찾아내는데 도움을 주는 기능을 갖추고 있습니다.</p>
+                <p>메가픽셀 CMOS와 HDTV 출력으로 한층 개선된 고화질 및 저소음을 구현했습니다. 또한 비리스 시술도 가능한 관찰 환경을 제공하고 있습니다.</p>
+                <p>6배 확대가 가능합니다. 내시경 약 170도의 광시야각으로 사각지대를 위한 관찰이 가능합니다.</p>
+                <p>한눈에에 위치한 병변의 검출도 가능하게 합니다.</p>
+            </div>
+        </div>
+
+        <!-- EndoCO2 PRO-600 -->
+        <div class="co2-card">
+            <div class="co2-image">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/></svg>
+            </div>
+            <div class="co2-info">
+                <h3>EndoCO2 PRO-600</h3>
+                <p>튼튼한 내구에서 사용하는 CO2 가스는 공기만큼 안전하고 체내에서의 배출은 공기보다 150배 이상 빠르며 눈어 후에 팽만감을 최소화 할 수 있는 최적의 시스템입니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 준비사항 섹션 -->
+    <div class="prep-section">
+        <h2>내시경 검사 전 준비사항</h2>
+
+        <div class="prep-item">
+            <h3>위내시경 (상부위장관내시경)</h3>
+            <h4>검사 전날</h4>
+            <ul>
+                <li>저녁 식사는 가볍게 하고, 저녁 9시 이후부터는 금식합니다.</li>
+                <li>물도 자정 이후에는 마시지 않는 것이 좋습니다.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

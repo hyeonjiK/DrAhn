@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 섹션 */
+        .section {
+            background: #fff;
+            padding: 20px 15px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #2d8c8c;
+        }
+
+        /* 진료일정 */
+        .schedule-list {
+            list-style: none;
+        }
+        .schedule-list li {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.9;
+            padding-left: 10px;
+            position: relative;
+        }
+        .schedule-list li::before {
+            content: '*';
+            position: absolute;
+            left: 0;
+            color: #2d8c8c;
+        }
+        .schedule-list .day {
+            font-weight: bold;
+            color: #333;
+        }
+        .schedule-list .note {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* 공지사항 테이블 */
+        .notice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .notice-table th {
+            background: #f5f5f5;
+            padding: 10px 8px;
+            text-align: center;
+            color: #555;
+            font-weight: bold;
+            border-top: 2px solid #2d8c8c;
+            border-bottom: 1px solid #ddd;
+        }
+        .notice-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+        .notice-table .num {
+            width: 40px;
+            text-align: center;
+            color: #888;
+        }
+        .notice-table .title {
+            text-align: left;
+        }
+        .notice-table .title a {
+            color: #333;
+            text-decoration: none;
+        }
+        .notice-table .title a:hover {
+            color: #2d8c8c;
+            text-decoration: underline;
+        }
+        .notice-table .date {
+            width: 70px;
+            text-align: center;
+            color: #888;
+            font-size: 11px;
+        }
+        .notice-table .important {
+            background: #fff8f0;
+        }
+        .notice-table .important .title a {
+            color: #c0392b;
+            font-weight: bold;
+        }
+        .notice-table .badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            margin-left: 5px;
+        }
+        .notice-table .badge.new {
+            background: #2d8c8c;
+        }
+
+        /* 빈 공지사항 */
+        .empty-notice {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .section { padding: 25px 20px; }
+            .section-title { font-size: 18px; }
+            .schedule-list li { font-size: 15px; }
+            .notice-table { font-size: 14px; }
+            .notice-table th { padding: 12px 10px; }
+            .notice-table td { padding: 14px 10px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .section { padding: 30px 40px; }
+            .section-title { font-size: 20px; }
+            .schedule-list li { font-size: 16px; }
+            .notice-table { font-size: 15px; }
+            .notice-table th { padding: 14px 12px; }
+            .notice-table td { padding: 16px 12px; }
+            .notice-table .date { font-size: 13px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 진료일정 섹션 -->
+    <div class="section">
+        <h2 class="section-title">진료일정</h2>
+        <ul class="schedule-list">
+            <li><span class="day">월/목요일</span> : 오전 9시~저녁 9시</li>
+            <li><span class="day">화/수/금요일</span> : 오전 9시~ 오후 5시</li>
+            <li><span class="day">토요일</span> : 오전 9시~오후 1시</li>
+            <li><span class="day">일요일</span> : 오전 9시~오후 1시 <span class="note">(매월 둘째 넷째 일요일)</span></li>
+        </ul>
+    </div>
+
+    <!-- 공지사항 섹션 -->
+    <div class="section">
+        <h2 class="section-title">공지사항</h2>
+        <table class="notice-table">
+            <thead>
+                <tr>
+                    <th class="num">번호</th>
+                    <th class="title">제목</th>
+                    <th class="date">날짜</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="important">
+                    <td class="num">5</td>
+                    <td class="title"><a href="#">2025년 설 연휴 진료 안내</a><span class="badge">중요</span></td>
+                    <td class="date">2025.01.20</td>
+                </tr>
+                <tr>
+                    <td class="num">4</td>
+                    <td class="title"><a href="#">2월 진료일정 안내</a><span class="badge new">NEW</span></td>
+                    <td class="date">2025.01.28</td>
+                </tr>
+                <tr>
+                    <td class="num">3</td>
+                    <td class="title"><a href="#">건강검진 예약 안내</a></td>
+                    <td class="date">2025.01.15</td>
+                </tr>
+                <tr>
+                    <td class="num">2</td>
+                    <td class="title"><a href="#">독감 예방접종 안내</a></td>
+                    <td class="date">2024.10.01</td>
+                </tr>
+                <tr>
+                    <td class="num">1</td>
+                    <td class="title"><a href="#">안내과의원 홈페이지 오픈</a></td>
+                    <td class="date">2024.09.01</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

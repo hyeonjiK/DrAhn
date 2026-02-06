@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5대 암검진 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 페이지 타이틀 */
+        .page-title {
+            background: #fff;
+            padding: 15px;
+            border-bottom: 2px solid #8B7355;
+        }
+        .page-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 요약 테이블 */
+        .summary-section {
+            background: #fff;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            min-width: 400px;
+        }
+        .summary-table th {
+            background: #d4c4a8;
+            padding: 8px 5px;
+            text-align: center;
+            color: #5a4a3a;
+            font-weight: bold;
+            border: 1px solid #c4b498;
+        }
+        .summary-table td {
+            padding: 8px 5px;
+            text-align: center;
+            color: #555;
+            border: 1px solid #e8e8e8;
+            line-height: 1.4;
+        }
+        .summary-table .cancer-type {
+            background: #fdfcfa;
+            font-weight: bold;
+            color: #5a4a3a;
+        }
+        .summary-table .icon {
+            font-size: 16px;
+        }
+
+        /* 상세 섹션 */
+        .detail-section {
+            background: #fff;
+            margin-bottom: 10px;
+        }
+
+        .cancer-card {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 15px;
+        }
+        .cancer-card:last-child {
+            border-bottom: none;
+        }
+
+        .cancer-image {
+            width: 100px;
+            height: 100px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            flex-shrink: 0;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .cancer-image svg {
+            width: 50px;
+            height: 50px;
+            fill: #ccc;
+        }
+
+        .cancer-info {
+            flex: 1;
+        }
+
+        .cancer-number {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .cancer-number span {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d4c4a8;
+            margin-right: 8px;
+        }
+        .cancer-number h3 {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .info-item {
+            margin-bottom: 8px;
+        }
+        .info-label {
+            display: inline-block;
+            background: #e8f5f3;
+            color: #2d8c8c;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-bottom: 3px;
+        }
+        .info-label.method {
+            background: #f5f0e6;
+            color: #8B7355;
+        }
+        .info-text {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.6;
+            padding-left: 5px;
+        }
+        .info-text.highlight {
+            color: #2d8c8c;
+        }
+
+        .risk-group {
+            background: #fafafa;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        .risk-group p {
+            font-size: 10px;
+            color: #666;
+            line-height: 1.6;
+            padding-left: 10px;
+            position: relative;
+        }
+        .risk-group p::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: #2d8c8c;
+        }
+
+        .note {
+            font-size: 10px;
+            color: #888;
+            margin-top: 5px;
+            padding: 8px;
+            background: #fff8f0;
+            border-radius: 3px;
+            line-height: 1.5;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .page-title { padding: 20px; }
+            .page-title h2 { font-size: 22px; }
+            .summary-table { font-size: 12px; }
+            .summary-table th, .summary-table td { padding: 10px 8px; }
+            .cancer-card { padding: 20px; }
+            .cancer-image { width: 120px; height: 120px; }
+            .cancer-number h3 { font-size: 18px; }
+            .info-label { font-size: 12px; }
+            .info-text { font-size: 13px; }
+            .risk-group p { font-size: 12px; }
+            .note { font-size: 12px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .page-title { padding: 25px 40px; }
+            .page-title h2 { font-size: 24px; }
+            .summary-table { font-size: 14px; }
+            .summary-table th, .summary-table td { padding: 12px 10px; }
+            .cancer-card { padding: 25px 30px; }
+            .cancer-image { width: 140px; height: 140px; }
+            .cancer-image svg { width: 60px; height: 60px; }
+            .cancer-number span { font-size: 28px; }
+            .cancer-number h3 { font-size: 20px; }
+            .info-label { font-size: 13px; padding: 4px 10px; }
+            .info-text { font-size: 14px; }
+            .risk-group p { font-size: 13px; }
+            .note { font-size: 13px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 페이지 타이틀 -->
+    <div class="page-title">
+        <h2>5대 암검진</h2>
+    </div>
+
+    <!-- 요약 테이블 -->
+    <div class="summary-section">
+        <table class="summary-table">
+            <tr>
+                <th>5대암검사</th>
+                <th>검사항목</th>
+                <th>검진비용</th>
+                <th>관련질환</th>
+            </tr>
+            <tr>
+                <td class="cancer-type">위암</td>
+                <td>위내시경</td>
+                <td>본인부담 10%<br>혹은 없음</td>
+                <td>식도암, 위염,<br>소화성궤양</td>
+            </tr>
+            <tr>
+                <td class="cancer-type">간암</td>
+                <td>간초음파<br>간암표지자</td>
+                <td>본인부담 10%<br>혹은 없음</td>
+                <td>간암, 간경화,<br>지방간, 간염 등</td>
+            </tr>
+            <tr>
+                <td class="cancer-type">대장암</td>
+                <td>대장내시경<br>대장암혈검사</td>
+                <td>본인부담 10%<br>혹은 없음</td>
+                <td>직장암, 대장용종,<br>대장암 등</td>
+            </tr>
+            <tr>
+                <td class="cancer-type">자궁경부암</td>
+                <td>자궁경부<br>세포검사</td>
+                <td>본인부담 없음</td>
+                <td>자궁경부암, 질염</td>
+            </tr>
+            <tr>
+                <td class="cancer-type">유방암</td>
+                <td>유방촬영술</td>
+                <td>본인부담 10%<br>혹은 없음</td>
+                <td>유방암, 양성 종양</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 상세 정보 -->
+    <div class="detail-section">
+        <!-- 01 위암 -->
+        <div class="cancer-card">
+            <div class="cancer-image">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="cancer-info">
+                <div class="cancer-number">
+                    <span>01</span>
+                    <h3>위암</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">검사대상자</span>
+                    <p class="info-text">만 40세 이상 남녀, 증상이 없어도 2년마다 검사</p>
+                </div>
+                <div class="info-item">
+                    <span class="info-label method">검사방법</span>
+                    <p class="info-text highlight">위내시경</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 02 간암 -->
+        <div class="cancer-card">
+            <div class="cancer-image">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="cancer-info">
+                <div class="cancer-number">
+                    <span>02</span>
+                    <h3>간암</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">검사대상자</span>
+                    <p class="info-text">만 40세 이상 남녀 중</p>
+                </div>
+                <div class="risk-group">
+                    <p>B형 간염 바이러스 표면 항원 양성자</p>
+                    <p>C형 간염 바이러스 항체 양성자</p>
+                    <p>과음 또는 B형 간염 바이러스에 의한 만성 간질환 환자</p>
+                </div>
+                <div class="info-item" style="margin-top:8px;">
+                    <span class="info-label method">검사방법</span>
+                    <p class="info-text highlight">간초음파검사, 간암표지자(αFP)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 03 대장암 -->
+        <div class="cancer-card">
+            <div class="cancer-image">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="cancer-info">
+                <div class="cancer-number">
+                    <span>03</span>
+                    <h3>대장암</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">검사대상자</span>
+                    <p class="info-text">만 50세 이상 남녀, 증상이 없어도 1년마다 검사</p>
+                </div>
+                <div class="info-item">
+                    <span class="info-label method">검사방법</span>
+                    <p class="info-text highlight">대장내시경, 대변잠혈검사</p>
+                </div>
+                <p class="note">(분변잠혈검사 반응검사 양성일 경우 선택)</p>
+            </div>
+        </div>
+
+        <!-- 04 자궁경부암 -->
+        <div class="cancer-card">
+            <div class="cancer-image">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="cancer-info">
+                <div class="cancer-number">
+                    <span>04</span>
+                    <h3>자궁경부암</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">검사대상자</span>
+                    <p class="info-text">만 20세 이상 여성(2년마다) 자궁경부세포검사 진행</p>
+                </div>
+                <div class="info-item">
+                    <span class="info-label method">검사방법</span>
+                    <p class="info-text highlight">자궁경부세포검사</p>
+                </div>
+                <p class="note">생리중이 없거나 과거에 자궁적출수술을 받은 분들은 사전에 검진의사와 상의를 하셔야 합니다.</p>
+            </div>
+        </div>
+
+        <!-- 05 유방암 -->
+        <div class="cancer-card">
+            <div class="cancer-image">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <div class="cancer-info">
+                <div class="cancer-number">
+                    <span>05</span>
+                    <h3>유방암</h3>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">검사대상자</span>
+                    <p class="info-text">만 40세 이상 여성(2년마다) 유방촬영검사 진행</p>
+                </div>
+                <div class="info-item">
+                    <span class="info-label method">검사방법</span>
+                    <p class="info-text highlight">유방촬영술, 이상시 유방 정밀초음파 진행</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

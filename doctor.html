@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>의료진 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 로고 */
+        .logo-section {
+            background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-left: 6px solid #f1c40f;
+        }
+        .logo-section h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .logo-section h1 span { color: #f1c40f; }
+
+        /* 페이지 타이틀 */
+        .page-title {
+            background: #fff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #2d8c8c;
+        }
+        .page-title h2 {
+            font-size: 18px;
+            color: #2d8c8c;
+        }
+
+        /* 의료진 카드 */
+        .doctor-card {
+            background: #fff;
+            margin: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .doctor-photo {
+            background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .doctor-photo .placeholder {
+            width: 120px;
+            height: 150px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .doctor-photo svg {
+            width: 60px;
+            height: 60px;
+            fill: rgba(255,255,255,0.5);
+        }
+
+        .doctor-info {
+            padding: 20px;
+        }
+
+        .doctor-name {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .doctor-name .title {
+            font-size: 13px;
+            color: #666;
+        }
+        .doctor-name .name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-section {
+            margin-bottom: 18px;
+        }
+        .info-section h3 {
+            font-size: 14px;
+            color: #2d8c8c;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #2d8c8c;
+        }
+        .info-section p {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.8;
+            padding-left: 10px;
+            position: relative;
+        }
+        .info-section p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 4px;
+            height: 4px;
+            background: #2d8c8c;
+            border-radius: 50%;
+        }
+
+        .memberships {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .memberships h3 {
+            font-size: 14px;
+            color: #2d8c8c;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .memberships p {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.9;
+            padding-left: 10px;
+            position: relative;
+        }
+        .memberships p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 3px;
+            height: 3px;
+            background: #888;
+            border-radius: 50%;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .logo-section { padding: 25px 30px; border-left-width: 8px; }
+            .logo-section h1 { font-size: 36px; }
+            .page-title { padding: 20px; }
+            .page-title h2 { font-size: 22px; }
+            .doctor-card { margin: 20px; }
+            .doctor-photo { height: 220px; }
+            .doctor-photo .placeholder { width: 150px; height: 180px; }
+            .doctor-info { padding: 30px; }
+            .doctor-name .name { font-size: 32px; }
+            .info-section h3 { font-size: 16px; }
+            .info-section p { font-size: 14px; }
+            .memberships p { font-size: 13px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .logo-section { padding: 35px 40px; }
+            .logo-section h1 { font-size: 42px; }
+            .page-title { padding: 25px 40px; }
+            .page-title h2 { font-size: 24px; }
+            .doctor-card { margin: 30px 40px; }
+            .doctor-photo { height: 260px; }
+            .doctor-photo .placeholder { width: 180px; height: 220px; }
+            .doctor-info { padding: 35px 40px; }
+            .doctor-name .name { font-size: 36px; }
+            .info-section h3 { font-size: 17px; }
+            .info-section p { font-size: 15px; }
+            .memberships { padding: 20px 25px; }
+            .memberships h3 { font-size: 16px; }
+            .memberships p { font-size: 14px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 로고 -->
+    <a href="index.html" style="text-decoration: none;">
+        <div class="logo-section">
+            <h1>안내과 <span>의원</span></h1>
+        </div>
+    </a>
+
+    <!-- 페이지 타이틀 -->
+    <div class="page-title">
+        <h2>의료진 소개</h2>
+    </div>
+
+    <!-- 의료진 카드 -->
+    <div class="doctor-card">
+        <div class="doctor-photo">
+            <div class="placeholder">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+        </div>
+
+        <div class="doctor-info">
+            <div class="doctor-name">
+                <p class="title">원장</p>
+                <p class="name">안지호</p>
+            </div>
+
+            <div class="info-section">
+                <h3>학력</h3>
+                <p>건국대학교 의과대학 졸업</p>
+                <p>순천향대학교 서울병원 소화기내과 임상강사, 외래교수</p>
+            </div>
+
+            <div class="info-section">
+                <h3>전문의 자격</h3>
+                <p>대한 내과 학회 소화기내과 분과 전문의</p>
+                <p>대한 소화기내시경학회 소화기내시경 세부전문의</p>
+            </div>
+
+            <div class="memberships">
+                <h3>학회 활동</h3>
+                <p>대한 내과 학회 정회원</p>
+                <p>대한 소화기학회 정회원</p>
+                <p>대한 소화기 내시경학회 평생회원</p>
+                <p>대한 간학회 평생회원</p>
+                <p>대한 장연구학회 평생회원</p>
+                <p>대한 임상초음파학회 평생회원</p>
+                <p>대한 소화기암연구학회 평생회원</p>
+                <p>대한 췌담도학회 정회원</p>
+                <p>대한 소화기 기능성질환 운동학회 정회원</p>
+                <p>대한 고혈압학회 정회원</p>
+                <p>대한 당뇨병학회 정회원</p>
+                <p>대한 비만학회 정회원</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

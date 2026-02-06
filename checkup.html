@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일반 건강검진 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 페이지 타이틀 */
+        .page-title {
+            background: #fff;
+            padding: 15px;
+            border-bottom: 2px solid #8B7355;
+        }
+        .page-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 섹션 */
+        .section {
+            background: #fff;
+            margin-bottom: 10px;
+        }
+
+        .section-header {
+            background: #d4c4a8;
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #5a4a3a;
+            text-align: center;
+        }
+
+        /* 공통 검사항목 테이블 */
+        .common-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .common-table th {
+            background: #f5f0e6;
+            padding: 8px 4px;
+            text-align: center;
+            color: #5a4a3a;
+            font-weight: bold;
+            border: 1px solid #e0d5c5;
+        }
+        .common-table td {
+            padding: 8px 4px;
+            text-align: center;
+            color: #555;
+            border: 1px solid #e8e8e8;
+            line-height: 1.4;
+        }
+        .common-table .disease {
+            background: #fafafa;
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* 검진항목 테이블 */
+        .checkup-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .checkup-table th {
+            background: #f5f0e6;
+            padding: 8px 4px;
+            text-align: center;
+            color: #5a4a3a;
+            font-weight: bold;
+            border: 1px solid #e0d5c5;
+        }
+        .checkup-table td {
+            padding: 6px 4px;
+            text-align: center;
+            color: #555;
+            border: 1px solid #e8e8e8;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+        .checkup-table .category {
+            background: #f9f7f3;
+            font-weight: bold;
+            color: #5a4a3a;
+            vertical-align: middle;
+        }
+        .checkup-table .sub-category {
+            background: #fdfcfa;
+            color: #666;
+        }
+        .checkup-table .item-name {
+            text-align: left;
+            padding-left: 8px;
+        }
+        .checkup-table .timing {
+            font-size: 10px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .check-icon {
+            color: #2d8c8c;
+            font-weight: bold;
+        }
+
+        /* 구분선 */
+        .divider {
+            height: 10px;
+            background: #f5f5f5;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .page-title { padding: 20px; }
+            .page-title h2 { font-size: 22px; }
+            .section-header { padding: 10px 20px; font-size: 14px; }
+            .common-table { font-size: 13px; }
+            .common-table th, .common-table td { padding: 10px 6px; }
+            .checkup-table { font-size: 13px; }
+            .checkup-table th, .checkup-table td { padding: 10px 6px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .page-title { padding: 25px 40px; }
+            .page-title h2 { font-size: 24px; }
+            .section-header { padding: 12px 25px; font-size: 15px; }
+            .common-table { font-size: 14px; }
+            .common-table th, .common-table td { padding: 12px 8px; }
+            .checkup-table { font-size: 14px; }
+            .checkup-table th, .checkup-table td { padding: 12px 8px; }
+            .checkup-table .timing { font-size: 12px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 페이지 타이틀 -->
+    <div class="page-title">
+        <h2>일반 건강검진</h2>
+    </div>
+
+    <!-- 공통 검사항목 -->
+    <div class="section">
+        <div class="section-header">공통 검사항목</div>
+        <table class="common-table">
+            <tr>
+                <th width="25%">대상질환</th>
+                <th width="25%">검사항목</th>
+                <th width="25%">대상질환</th>
+                <th width="25%">검사항목</th>
+            </tr>
+            <tr>
+                <td class="disease">시각, 청각이상</td>
+                <td>시력, 청력</td>
+                <td class="disease">당뇨병</td>
+                <td>공복혈당</td>
+            </tr>
+            <tr>
+                <td class="disease">비만</td>
+                <td>신장, 체중, 허리둘레, 체질량지수</td>
+                <td class="disease">간장질환</td>
+                <td>AST, ALT, r-GTP</td>
+            </tr>
+            <tr>
+                <td class="disease">고혈압</td>
+                <td>혈압</td>
+                <td class="disease">폐결핵/흉부질환</td>
+                <td>흉부방사선촬영</td>
+            </tr>
+            <tr>
+                <td class="disease">신장질환</td>
+                <td>요단백, 혈청크레아티닌, e-GFR</td>
+                <td class="disease">빈혈증</td>
+                <td>혈색소</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 일반건강검진 항목 (상단) -->
+    <div class="section">
+        <table class="checkup-table">
+            <tr>
+                <th width="18%">구분</th>
+                <th colspan="2">검진항목</th>
+                <th width="30%">실시시기</th>
+            </tr>
+            <tr>
+                <td rowspan="10" class="category">일반<br>건강검진</td>
+                <td rowspan="4" class="sub-category">혈액검사</td>
+                <td class="item-name">총콜레스테롤</td>
+                <td rowspan="4" class="timing">남성 만 24세 이상,<br>여성 만 40세 이상<br>4년 마다</td>
+            </tr>
+            <tr>
+                <td class="item-name">HDL 콜레스테롤</td>
+            </tr>
+            <tr>
+                <td class="item-name">트리글리세라이드</td>
+            </tr>
+            <tr>
+                <td class="item-name">LDL 콜레스테롤</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">B형 간염 검사</td>
+                <td class="timing">만 40세</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">골밀도 검사 <span class="check-icon">&#10004;</span></td>
+                <td class="timing">만 54, 66세 여성</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">인지기능장애(KDSQ-C)</td>
+                <td class="timing">만 66세 이상 2년 마다</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">정신건강검사(우울증)</td>
+                <td class="timing">만 20, 30, 40, 50, 60, 70세</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">생활습관평가</td>
+                <td class="timing">만 40, 50, 60, 70세</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="item-name">노인신체기능검사</td>
+                <td class="timing">만 66, 70, 80세</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 일반건강검진 항목 (하단) -->
+    <div class="section">
+        <div class="page-title" style="border-bottom: 2px solid #8B7355;">
+            <h2>일반 건강검진</h2>
+        </div>
+        <table class="checkup-table">
+            <tr>
+                <td rowspan="6" class="category" style="width:18%;">건강검진</td>
+                <td class="item-name">B형 간염 검사</td>
+                <td class="timing" style="width:30%;">만 40세</td>
+            </tr>
+            <tr>
+                <td class="item-name">골밀도 검사</td>
+                <td class="timing">만 54, 66세 여성</td>
+            </tr>
+            <tr>
+                <td class="item-name">인지기능장애(KDSQ-C)</td>
+                <td class="timing">만 66세 이상 2년 마다</td>
+            </tr>
+            <tr>
+                <td class="item-name">정신건강검사(우울증)</td>
+                <td class="timing">만 20, 30, 40, 50, 60, 70세</td>
+            </tr>
+            <tr>
+                <td class="item-name">생활습관평가</td>
+                <td class="timing">만 40, 50, 60, 70세</td>
+            </tr>
+            <tr>
+                <td class="item-name">노인신체기능검사</td>
+                <td class="timing">만 66, 70, 80세</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

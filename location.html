@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오시는길 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 지도 섹션 */
+        .map-section {
+            background: #e8e8e8;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c8d6c8 0%, #a8c0a8 50%, #98b898 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(90deg, rgba(200,200,200,0.3) 1px, transparent 1px),
+                linear-gradient(rgba(200,200,200,0.3) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .map-marker {
+            position: absolute;
+            top: 50%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .marker-box {
+            background: #fff;
+            border: 2px solid #e74c3c;
+            padding: 8px 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .marker-box h3 {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .marker-box span {
+            color: #666;
+            font-size: 11px;
+        }
+        .marker-pin {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid #e74c3c;
+            margin: 0 auto;
+        }
+
+        .map-label {
+            position: absolute;
+            font-size: 11px;
+            color: #555;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .label-misa { top: 15px; right: 30px; }
+        .label-gangil { top: 45%; left: 15px; }
+        .label-sangil { bottom: 30px; left: 20px; }
+
+        /* 주소 바 */
+        .address-bar {
+            background: #2d8c8c;
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* 교통 안내 섹션 */
+        .transport-section {
+            background: #fff;
+            padding: 20px 15px;
+        }
+
+        .transport-item {
+            margin-bottom: 20px;
+        }
+        .transport-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .transport-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .transport-title .dot {
+            width: 10px;
+            height: 10px;
+            background: #2d8c8c;
+            border-radius: 50%;
+        }
+        .transport-title h3 {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .transport-list {
+            padding-left: 18px;
+        }
+        .transport-list li {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.8;
+            list-style: none;
+            position: relative;
+            padding-left: 15px;
+        }
+        .transport-list li::before {
+            content: '▪';
+            position: absolute;
+            left: 0;
+            color: #888;
+            font-size: 8px;
+        }
+
+        .highlight-text {
+            color: #2d8c8c;
+            font-weight: bold;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .map-section { height: 380px; }
+            .marker-box h3 { font-size: 16px; }
+            .marker-box span { font-size: 13px; }
+            .map-label { font-size: 13px; }
+            .address-bar { padding: 14px 20px; font-size: 15px; }
+            .transport-section { padding: 25px 20px; }
+            .transport-title h3 { font-size: 16px; }
+            .transport-list li { font-size: 14px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .map-section { height: 450px; }
+            .marker-box { padding: 12px 18px; }
+            .marker-box h3 { font-size: 18px; }
+            .marker-box span { font-size: 14px; }
+            .map-label { font-size: 14px; padding: 4px 10px; }
+            .address-bar { padding: 16px 30px; font-size: 16px; }
+            .transport-section { padding: 35px 40px; }
+            .transport-title h3 { font-size: 18px; }
+            .transport-list li { font-size: 15px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 지도 섹션 -->
+    <div class="map-section">
+        <div class="map-placeholder">
+            <span class="map-label label-misa">미사역</span>
+            <span class="map-label label-gangil">강일역</span>
+            <span class="map-label label-sangil">상일IC</span>
+
+            <div class="map-marker">
+                <div class="marker-box">
+                    <h3>안내과의원</h3>
+                    <span>골드프라자 5층</span>
+                </div>
+                <div class="marker-pin"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주소 바 -->
+    <div class="address-bar">
+        경기 하남시 미사강변대로34번길 82 골드프라자 5층
+    </div>
+
+    <!-- 교통 안내 섹션 -->
+    <div class="transport-section">
+        <div class="transport-item">
+            <div class="transport-title">
+                <span class="dot"></span>
+                <h3>대중 교통</h3>
+            </div>
+            <ul class="transport-list">
+                <li>버스 <span class="highlight-text">9303</span> 센트럴자이 하차</li>
+                <li>버스 이용 시 센트럴자이 정류장 하차</li>
+                <li>미사역에서 도보 15분</li>
+            </ul>
+        </div>
+
+        <div class="transport-item">
+            <div class="transport-title">
+                <span class="dot"></span>
+                <h3>택시, 자가용</h3>
+            </div>
+            <ul class="transport-list">
+                <li>상일IC에서 미사대로 방면으로 10분</li>
+                <li>강일역에서 5분 거리</li>
+            </ul>
+        </div>
+
+        <div class="transport-item">
+            <div class="transport-title">
+                <span class="dot"></span>
+                <h3>주차 <span style="font-size:12px; color:#2d8c8c;">(주차 지원합니다)</span></h3>
+            </div>
+            <ul class="transport-list">
+                <li>건물 지하주차장</li>
+                <li>하남돼지집 주차장</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

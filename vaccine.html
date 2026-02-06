@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예방접종 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 페이지 타이틀 */
+        .page-title {
+            background: #fff;
+            padding: 15px;
+            border-bottom: 2px solid #8B7355;
+        }
+        .page-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 탭 버튼 */
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px 15px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+        .tab-btn {
+            padding: 6px 10px;
+            font-size: 11px;
+            border: 1px solid #2d8c8c;
+            background: white;
+            color: #2d8c8c;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .tab-btn.active, .tab-btn:active {
+            background: #2d8c8c;
+            color: white;
+        }
+
+        /* 콘텐츠 영역 */
+        .content-section {
+            background: #fff;
+        }
+
+        /* 백신 카드 */
+        .vaccine-card {
+            padding: 20px 15px;
+            border-bottom: 8px solid #f5f5f5;
+        }
+        .vaccine-card:last-child {
+            border-bottom: none;
+        }
+
+        .vaccine-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #d4c4a8;
+        }
+
+        .vaccine-desc {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #faf8f5;
+            border-radius: 5px;
+        }
+
+        .info-box {
+            margin-bottom: 12px;
+        }
+        .info-label {
+            display: inline-block;
+            background: #e8f5f3;
+            color: #2d8c8c;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-bottom: 6px;
+        }
+        .info-content {
+            font-size: 12px;
+            color: #444;
+            line-height: 1.6;
+            padding-left: 5px;
+        }
+
+        .target-list {
+            list-style: none;
+            padding-left: 5px;
+        }
+        .target-list li {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.8;
+            padding-left: 12px;
+            position: relative;
+        }
+        .target-list li::before {
+            content: '-';
+            position: absolute;
+            left: 0;
+            color: #2d8c8c;
+        }
+
+        .highlight-box {
+            background: #fff8f0;
+            border-left: 3px solid #d4a84a;
+            padding: 10px 12px;
+            margin-top: 10px;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 720px; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .page-title { padding: 20px; }
+            .page-title h2 { font-size: 22px; }
+            .tab-buttons { gap: 8px; padding: 14px 20px; }
+            .tab-btn { padding: 8px 14px; font-size: 13px; }
+            .vaccine-card { padding: 25px 20px; }
+            .vaccine-title { font-size: 18px; }
+            .vaccine-desc { font-size: 14px; padding: 15px; }
+            .info-label { font-size: 13px; }
+            .info-content { font-size: 14px; }
+            .target-list li { font-size: 14px; }
+            .highlight-box { font-size: 13px; padding: 12px 15px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            body { background: #e8e8e8; }
+            .page-wrapper {
+                max-width: 960px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.15);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .page-title { padding: 25px 40px; }
+            .page-title h2 { font-size: 24px; }
+            .tab-buttons { gap: 10px; padding: 18px 30px; }
+            .tab-btn { padding: 10px 18px; font-size: 14px; border-radius: 5px; }
+            .vaccine-card { padding: 30px 35px; }
+            .vaccine-title { font-size: 20px; }
+            .vaccine-desc { font-size: 15px; padding: 18px 20px; }
+            .info-label { font-size: 14px; padding: 4px 10px; }
+            .info-content { font-size: 15px; }
+            .target-list li { font-size: 15px; }
+            .highlight-box { font-size: 14px; padding: 14px 18px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 1100px; margin-top: 40px; margin-bottom: 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 페이지 타이틀 -->
+    <div class="page-title">
+        <h2>예방접종</h2>
+    </div>
+
+    <!-- 탭 버튼 -->
+    <div class="tab-buttons">
+        <a href="#hepatitis-a" class="tab-btn active">A형 간염</a>
+        <a href="#hepatitis-b" class="tab-btn">B형 간염</a>
+        <a href="#pneumonia" class="tab-btn">폐렴구균(폐렴)</a>
+        <a href="#shingles" class="tab-btn">대상포진·파상풍</a>
+        <a href="#hpv" class="tab-btn">자궁경부암</a>
+    </div>
+
+    <!-- 콘텐츠 영역 -->
+    <div class="content-section">
+        <!-- A형 간염 -->
+        <div class="vaccine-card" id="hepatitis-a">
+            <h3 class="vaccine-title">A형 간염</h3>
+            <p class="vaccine-desc">
+                A형 간염은 주로 간염 환자와의 접촉을 통해 전달됩니다. 또는 감염자(비록 본인 과거에도 자각증기가 매복잠기 라는 A형 간염을 앓았음에도)로 오염된 사람에 A형 간염 바이러스에 노출된 이력이 가지고 있는 사람은 예방접종을 받을 필요가 없습니다. A형 간염은 증상이 없다가도 어는날 급작스럽게 피로, 식욕감퇴, 구역질, 구토, 근육통, 두통, 열 등의 증상이 나타납니다.
+            </p>
+            <div class="info-box">
+                <span class="info-label">접종횟수</span>
+                <p class="info-content">2회 (1차 접종 후, 6개월에서 정해진 대로 6개월 혹은 12개월 후에 2차 접종을 시행합니다)</p>
+            </div>
+            <div class="info-box">
+                <span class="info-label">접종대상</span>
+                <ul class="target-list">
+                    <li>A형 간염 검사결과가 저항</li>
+                    <li>A형 간염 풍토성 지역 여행 예정자 및 A형 간염에 노출될 위험이 높은 직업 종사자</li>
+                    <li>혈액제 응고 장애 질환자</li>
+                    <li>동성애자, 주사상 번역 경험등 환자, 만성 간질환 환자</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- B형 간염 -->
+        <div class="vaccine-card" id="hepatitis-b">
+            <h3 class="vaccine-title">B형 간염</h3>
+            <p class="vaccine-desc">
+                B형 간염은 바이러스에 의해 간의 염증을 과정할 일어나는 것으로 이 과정이 6개월 이상 지속되는 경우를 만성 B형 간염이라고 합니다. B형 간염은 발열, 매스꺼움, 우측 상 간장에서의 연결통 등 증상이나 심하며, B형 간염의 경우 두뇌 뇌간 보관자가 될 가능성이 때문에 주의해서 치료의 예방접종을 권고합니다.
+            </p>
+            <div class="info-box">
+                <span class="info-label">접종횟수</span>
+                <p class="info-content">3회 (접종간격은 시행마다 상이함)</p>
+            </div>
+            <div class="info-box">
+                <span class="info-label">접종대상</span>
+                <ul class="target-list">
+                    <li>B형 간염 항체와 항원이 없는 사람</li>
+                    <li>B형 간염 예방접종을 우치 않은 사람(신생아 포함)</li>
+                    <li>B형 간염 예방접종 후 항체가 생기지 않은 사람</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 폐렴구균(폐렴) -->
+        <div class="vaccine-card" id="pneumonia">
+            <h3 class="vaccine-title">폐렴구균(폐렴)</h3>
+            <p class="vaccine-desc">
+                폐렴은 바이러스나 세균 등의 미생물에 의한 감염을 통해 발생하는 폐의 염증화라고 할 수 있습니다. 폐렴의 경우, 폐렴구균을 보유하고 있는 사람이 기침이나 잡담으로 통해 전염됩니다.
+            </p>
+            <div class="info-box">
+                <span class="info-label">접종대상</span>
+                <ul class="target-list">
+                    <li>신생아 및 소아는 총 4차례, 성인은 1~2차례</li>
+                    <li>신생아 및 소아, 성인(당뇨유무와 상관 2, 4, 6개월에 3회 접종 후 12~15개월에 추가접종)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 대상포진·파상풍 -->
+        <div class="vaccine-card" id="shingles">
+            <h3 class="vaccine-title">대상포진·파상풍</h3>
+            <p class="vaccine-desc">
+                대상포진은 어릴 때 앓은 수두 바이러스가 몸 속에 잠복해 있다가 면역력이 떨어지면 다시 활성화되어 발생하는 질환입니다. 파상풍은 상처 부위에서 파상풍균이 생산하는 신경 독소에 의해 유발되는 급성 질환입니다.
+            </p>
+            <div class="info-box">
+                <span class="info-label">대상포진 접종대상</span>
+                <ul class="target-list">
+                    <li>만 50세 이상 성인</li>
+                    <li>1회 접종</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <span class="info-label">파상풍 접종대상</span>
+                <ul class="target-list">
+                    <li>모든 연령</li>
+                    <li>10년마다 추가접종 권장</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 자궁경부암 -->
+        <div class="vaccine-card" id="hpv">
+            <h3 class="vaccine-title">자궁경부암</h3>
+            <p class="vaccine-desc">
+                자궁경부암 백신은 인유두종 바이러스(HPV) 감염을 예방하여 자궁경부암 발생 위험을 줄여줍니다. HPV는 성접촉을 통해 전파되며, 대부분의 자궁경부암은 HPV 감염에 의해 발생합니다.
+            </p>
+            <div class="info-box">
+                <span class="info-label">접종횟수</span>
+                <p class="info-content">2~3회 (연령에 따라 상이)</p>
+            </div>
+            <div class="info-box">
+                <span class="info-label">접종대상</span>
+                <ul class="target-list">
+                    <li>만 9~26세 여성 권장</li>
+                    <li>만 9~14세: 2회 접종</li>
+                    <li>만 15세 이상: 3회 접종</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                국가예방접종 지원사업으로 만 12세 여성 청소년은 무료접종이 가능합니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>
