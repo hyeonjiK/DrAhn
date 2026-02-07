@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영양수액 - 안내과 의원</title>
+    <title>일반 내과 - 안내과 의원</title>
     <meta name="theme-color" content="#2d8c8c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -44,42 +44,37 @@
             padding: 20px 15px;
         }
 
-        /* 수액 아이템 */
-        .sap-item {
-            margin-bottom: 20px;
+        /* 항목 */
+        .ultra-item {
+            margin-bottom: 18px;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
-        .sap-item:last-child {
+        .ultra-item:last-child {
             margin-bottom: 0;
             padding-bottom: 0;
             border-bottom: none;
         }
 
-        .sap-title {
+        .ultra-title {
             font-size: 14px;
             font-weight: bold;
             color: #333;
             margin-bottom: 5px;
         }
-        .sap-title .number {
+        .ultra-title .number {
             color: #2d8c8c;
             margin-right: 5px;
         }
-        .sap-title .eng {
-            font-weight: normal;
-            color: #888;
-            font-size: 12px;
-        }
 
-        .sap-desc {
+        .ultra-desc {
             font-size: 12px;
             color: #666;
             line-height: 1.6;
             padding-left: 20px;
             position: relative;
         }
-        .sap-desc::before {
+        .ultra-desc::before {
             content: '·';
             position: absolute;
             left: 8px;
@@ -113,6 +108,7 @@
             line-height: 1.6;
         }
         .footer p { margin-bottom: 3px; }
+
         /* 태블릿 (768px+) */
         @media (min-width: 768px) {
             .page-wrapper { max-width: 100%; }
@@ -120,26 +116,21 @@
             .page-title { padding: 20px; }
             .page-title h2 { font-size: 22px; }
             .content-section { padding: 25px 20px; }
-            .sap-title { font-size: 16px; }
-            .sap-title .eng { font-size: 13px; }
-            .sap-desc { font-size: 14px; }
+            .ultra-title { font-size: 16px; }
+            .ultra-desc { font-size: 14px; }
             .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
             .footer { padding: 20px 25px; font-size: 13px; }
         }
 
         /* PC (1024px+) */
         @media (min-width: 1024px) {
-            .page-wrapper {
-                max-width: 100%;
-            }
+            .page-wrapper { max-width: 100%; }
             .header { padding: 16px 30px; font-size: 17px; }
             .page-title { padding: 25px 40px; }
             .page-title h2 { font-size: 24px; }
             .content-section { padding: 35px 40px; }
-            .sap-item { margin-bottom: 22px; padding-bottom: 18px; }
-            .sap-title { font-size: 17px; }
-            .sap-title .eng { font-size: 14px; }
-            .sap-desc { font-size: 15px; }
+            .ultra-title { font-size: 17px; }
+            .ultra-desc { font-size: 15px; }
             .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
             .footer { padding: 25px 40px; font-size: 14px; }
         }
@@ -159,74 +150,59 @@
 
     <!-- 페이지 타이틀 -->
     <div class="page-title">
-        <h2>수액</h2>
+        <h2>일반 내과</h2>
     </div>
 
     <!-- 콘텐츠 영역 -->
     <div class="content-section">
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">1.</span> 생리식염수 <span class="eng">(Normal Saline, NS)</span></p>
-            <p class="sap-desc">탈수 치료, 약물 희석, 일반적인 수분 보충</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">1.</span> 혈액검사, 소변검사</p>
+            <p class="ultra-desc">건강검진 및 질병 진단을 위한 기본 검사</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">2.</span> 링거액 <span class="eng">(Ringer's Solution)</span></p>
-            <p class="sap-desc">전해질 불균형 교정, 수술 중 수액 공급</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">2.</span> 만성질환 (당뇨, 고혈압, 고지혈증)</p>
+            <p class="ultra-desc">지속적인 관리가 필요한 대사성 질환의 진단 및 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">3.</span> 하트만 용액 <span class="eng">(Hartmann's Solution)</span></p>
-            <p class="sap-desc">수술 후 회복, 화상, 출혈 시 전해질 보충</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">3.</span> 소화기 관련 진료 (위염, 장염, 식도염, 과민성 대장 증후군, 헬리코박터 치료)</p>
+            <p class="ultra-desc">소화불량, 복통, 설사 등 위장관 질환의 진단과 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">4.</span> 포도당 용액 <span class="eng">(Dextrose 5%, 10%)</span></p>
-            <p class="sap-desc">저혈당, 영양 공급, 에너지 보충</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">4.</span> 간질환, 갑상선 질환</p>
+            <p class="ultra-desc">간 기능 이상 및 갑상선 호르몬 불균형 질환 관리</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">5.</span> 알부민 <span class="eng">(Albumin)</span></p>
-            <p class="sap-desc">간경화, 화상, 저알부민혈증, 혈압 유지</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">5.</span> 대사증후군 및 통풍</p>
+            <p class="ultra-desc">복부비만, 고혈압 등이 동반되는 대사 이상과 관절 통증을 유발하는 통풍 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">6.</span> 하이드록시에틸스타치 <span class="eng">(HES)</span></p>
-            <p class="sap-desc">수술 중 혈액량 유지, 쇼크 치료</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">6.</span> 비만</p>
+            <p class="ultra-desc">체중 조절 및 비만 관련 합병증 예방을 위한 상담과 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">7.</span> 만니톨 <span class="eng">(Mannitol)</span></p>
-            <p class="sap-desc">뇌부종 감소, 두개내압 상승, 급성 녹내장</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">7.</span> 골다공증 (골밀도 검사)</p>
+            <p class="ultra-desc">뼈의 강도 측정 및 골절 예방을 위한 검사와 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">8.</span> 중탄산나트륨 <span class="eng">(Sodium Bicarbonate)</span></p>
-            <p class="sap-desc">산증(acidosis) 교정, 심정지 시 사용</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">8.</span> 호흡기 질환 (감기, 천식, 만성 기침)</p>
+            <p class="ultra-desc">기침, 가래, 호흡곤란 등 호흡기 증상의 진단 및 치료</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">9.</span> KCL 함유 수액 <span class="eng">(Potassium Chloride)</span></p>
-            <p class="sap-desc">저칼륨혈증, 칼륨 결핍 보충</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">9.</span> 만성 피로, 어지럼증</p>
+            <p class="ultra-desc">지속되는 피로감과 어지러움의 원인 파악 및 관리</p>
         </div>
 
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">10.</span> 아미노산 수액 <span class="eng">(TPN)</span></p>
-            <p class="sap-desc">장기간 금식 환자, 영양 공급 불가 시</p>
-        </div>
-
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">11.</span> 지질 유제 <span class="eng">(Lipid Emulsion)</span></p>
-            <p class="sap-desc">고칼로리 영양 공급, 중심정맥영양</p>
-        </div>
-
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">12.</span> 젤라틴 용액 <span class="eng">(Gelatin)</span></p>
-            <p class="sap-desc">혈액량 부족, 수술 중 혈압 유지</p>
-        </div>
-
-        <div class="sap-item">
-            <p class="sap-title"><span class="number">13.</span> 염화칼슘 <span class="eng">(Calcium Chloride)</span></p>
-            <p class="sap-desc">저칼슘혈증, 심정지 응급 처치</p>
+        <div class="ultra-item">
+            <p class="ultra-title"><span class="number">10.</span> 피부질환 및 알레르기 (두드러기, 아토피, 비염, 대상포진, 알레르기 검사)</p>
+            <p class="ultra-desc">피부 증상 및 알레르기 반응의 진단과 치료</p>
         </div>
     </div>
 

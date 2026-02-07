@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X선 검사 - 안내과 의원</title>
+    <meta name="theme-color" content="#2d8c8c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        .page-wrapper { max-width: 480px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        .header {
+            background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
+            color: white;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        .header a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 페이지 타이틀 */
+        .page-title {
+            background: #fff;
+            padding: 15px;
+            border-bottom: 2px solid #8B7355;
+        }
+        .page-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 콘텐츠 영역 */
+        .content-section {
+            background: #fff;
+            padding: 20px 15px;
+        }
+
+        /* 카테고리 헤더 */
+        .category-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            background: #2d8c8c;
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        /* 항목 */
+        .ultra-item {
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .ultra-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .ultra-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .ultra-title .number {
+            color: #2d8c8c;
+            margin-right: 5px;
+        }
+
+        .ultra-desc {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+        .ultra-desc span {
+            display: block;
+            padding-left: 20px;
+            position: relative;
+        }
+        .ultra-desc span::before {
+            content: '·';
+            position: absolute;
+            left: 8px;
+            color: #2d8c8c;
+            font-weight: bold;
+        }
+
+        /* 카테고리 구분 */
+        .category-block {
+            margin-bottom: 25px;
+        }
+        .category-block:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 홈 버튼 */
+        .home-btn {
+            display: block;
+            background: #2d8c8c;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px;
+            border-radius: 5px;
+        }
+        .home-btn:active {
+            background: #247373;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: #333;
+            color: #aaa;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .footer p { margin-bottom: 3px; }
+
+        /* 태블릿 (768px+) */
+        @media (min-width: 768px) {
+            .page-wrapper { max-width: 100%; }
+            .header { padding: 14px 20px; font-size: 16px; }
+            .page-title { padding: 20px; }
+            .page-title h2 { font-size: 22px; }
+            .content-section { padding: 25px 20px; }
+            .category-title { font-size: 17px; padding: 12px 18px; }
+            .ultra-title { font-size: 16px; }
+            .ultra-desc { font-size: 14px; }
+            .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
+            .footer { padding: 20px 25px; font-size: 13px; }
+        }
+
+        /* PC (1024px+) */
+        @media (min-width: 1024px) {
+            .page-wrapper { max-width: 100%; }
+            .header { padding: 16px 30px; font-size: 17px; }
+            .page-title { padding: 25px 40px; }
+            .page-title h2 { font-size: 24px; }
+            .content-section { padding: 35px 40px; }
+            .category-title { font-size: 18px; padding: 14px 20px; }
+            .ultra-title { font-size: 17px; }
+            .ultra-desc { font-size: 15px; }
+            .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
+            .footer { padding: 25px 40px; font-size: 14px; }
+        }
+
+        /* 대형 (1400px+) */
+        @media (min-width: 1400px) {
+            .page-wrapper { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- 상단 헤더 -->
+    <header class="header">
+        빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
+    </header>
+
+    <!-- 페이지 타이틀 -->
+    <div class="page-title">
+        <h2>X선 검사</h2>
+    </div>
+
+    <!-- 콘텐츠 영역 -->
+    <div class="content-section">
+
+        <!-- 흉부 X-ray -->
+        <div class="category-block">
+            <p class="category-title">흉부 X-ray</p>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">1.</span> 폐 질환</p>
+                <div class="ultra-desc">
+                    <span>폐렴, 폐결핵, 폐농양</span>
+                    <span>폐암, 폐 전이암</span>
+                    <span>기흉 (자연 기흉, 외상성 기흉)</span>
+                    <span>흉수 (폐에 물이 참)</span>
+                    <span>폐부종 (심부전, 신부전 등으로 인한)</span>
+                    <span>만성 폐쇄성 폐질환(COPD), 폐기종</span>
+                    <span>기관지확장증</span>
+                    <span>폐섬유화증</span>
+                    <span>폐색전증 - 간접 소견</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">2.</span> 심장 질환</p>
+                <div class="ultra-desc">
+                    <span>심장 비대 (심비대)</span>
+                    <span>울혈성 심부전</span>
+                    <span>심낭 삼출 (심장 주위에 물이 차는 것)</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">3.</span> 종격동 (가슴 중앙부)</p>
+                <div class="ultra-desc">
+                    <span>종격동 종양</span>
+                    <span>림프절 비대</span>
+                    <span>대동맥 확장, 대동맥류</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">4.</span> 흉막 질환</p>
+                <div class="ultra-desc">
+                    <span>흉막염</span>
+                    <span>흉막 비후</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">5.</span> 건강검진</p>
+                <div class="ultra-desc">
+                    <span>폐 건강 상태 확인</span>
+                    <span>심장 크기 평가</span>
+                    <span>흉곽 구조 이상 확인</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 복부 X-ray -->
+        <div class="category-block">
+            <p class="category-title">복부 X-ray</p>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">1.</span> 소화기계</p>
+                <div class="ultra-desc">
+                    <span>장폐색 (소장, 대장)</span>
+                    <span>장천공 (free air 확인)</span>
+                    <span>변비 및 분변 매복</span>
+                    <span>장 마비</span>
+                    <span>급성 충수염(맹장염) - 보조 진단</span>
+                    <span>장 내 이물질</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">2.</span> 간담도계</p>
+                <div class="ultra-desc">
+                    <span>담석 (석회화된 경우)</span>
+                    <span>담낭염 - 보조 진단</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">3.</span> 복강 내 이상</p>
+                <div class="ultra-desc">
+                    <span>복수 (배에 물이 참)</span>
+                    <span>복강 내 종괴</span>
+                    <span>복부 대동맥류 석회화</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">4.</span> 장기 크기 이상</p>
+                <div class="ultra-desc">
+                    <span>간 비대</span>
+                    <span>비장 비대</span>
+                </div>
+            </div>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">5.</span> 기타</p>
+                <div class="ultra-desc">
+                    <span>복부 외상 후 내부 출혈 의심 소견</span>
+                    <span>이전 수술 후 금속 클립, 스텐트 등 확인</span>
+                    <span>삼킨 이물질 위치 확인</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 부비동(코) X-ray -->
+        <div class="category-block">
+            <p class="category-title">부비동(코) X-ray</p>
+
+            <div class="ultra-item">
+                <p class="ultra-title"><span class="number">1.</span> 축농증 (부비동염)</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn">홈으로 돌아가기</a>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>상호명: 안내과의원 대표자: 안진호 사업자번호:</p>
+        <p>주소: 경기 하남시 미사강변대로34번길 82 골드프라자 5층</p>
+    </footer>
+</div>
+</body>
+</html>

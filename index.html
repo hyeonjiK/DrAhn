@@ -10,9 +10,12 @@
     <meta name="apple-mobile-web-app-title" content="안내과의원">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
+        body { font-family: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif; background: #f5f5f5; margin: 0 auto; }
         .page-wrapper { max-width: 480px; margin: 0 auto; }
 
         /* 상단 헤더 */
@@ -20,36 +23,40 @@
             background: linear-gradient(135deg, #2d8c8c 0%, #3da8a8 100%);
             color: white;
             text-align: center;
-            padding: 10px 15px;
-            font-size: 14px;
+            padding: 12px 15px;
+            font-size: 18px;
         }
         .header a { color: white; text-decoration: none; font-weight: bold; }
 
+        /* 로고+슬로건 래퍼 */
+        .logo-slogan-row {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         /* 로고 */
         .logo-section {
-            background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
-            color: white;
-            padding: 15px 20px;
             text-align: center;
-            border-left: 6px solid #f1c40f;
+            padding: 15px;
         }
-        .logo-section h1 {
-            font-size: 28px;
-            font-weight: bold;
+        .logo-section img {
+            width: 60%;
+            height: auto;
+            display: inline-block;
         }
-        .logo-section h1 span { color: #f1c40f; }
 
         /* 슬로건 */
         .slogan {
-            background: #fff;
             padding: 15px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
         }
         .slogan p {
-            font-size: 13px;
+            font-size: 16px;
             color: #333;
             line-height: 1.6;
+            font-weight: bold;
         }
         .slogan .highlight {
             color: #2d8c8c;
@@ -81,13 +88,33 @@
             color: white;
         }
 
+        /* 배경 이미지 래퍼 (슬로건~아이콘) */
+        .bg-wrapper {
+            position: relative;
+        }
+        .bg-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('images/entrance_main (1-1).jpg') center/cover no-repeat;
+            opacity: 1;
+            z-index: 0;
+        }
+        .bg-wrapper > * {
+            position: relative;
+            z-index: 1;
+        }
+
         /* 아이콘 섹션 */
         .icon-section {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
             padding: 20px 15px;
-            background: #4a4a4a;
+            background: rgba(74, 74, 74, 0.85);
         }
         .icon-item {
             text-align: center;
@@ -95,8 +122,8 @@
             color: white;
         }
         .icon-circle {
-            width: 65px;
-            height: 65px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             background: #5a5a5a;
             border: 2px solid #888;
@@ -111,8 +138,8 @@
             border-color: #3da8a8;
         }
         .icon-circle svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             fill: white;
         }
         .icon-label {
@@ -230,20 +257,32 @@
         @media (min-width: 768px) {
             .page-wrapper { max-width: 100%; }
 
-            .header { padding: 14px 20px; font-size: 16px; }
+            .header { padding: 14px 20px; font-size: 20px; }
 
-            .logo-section { padding: 25px 30px; border-left-width: 8px; }
-            .logo-section h1 { font-size: 36px; }
-
-            .slogan { padding: 20px; }
-            .slogan p { font-size: 15px; }
+            .logo-slogan-row {
+                flex-direction: row;
+                align-items: center;
+            }
+            .logo-section {
+                flex: 1;
+                padding: 20px;
+                border-right: 1px solid #ddd;
+            }
+            .logo-section img { width: 80%; }
+            .slogan {
+                flex: 1;
+                padding: 20px;
+                border-top: none;
+                text-align: center;
+            }
+            .slogan p { font-size: 18px; }
 
             .nav-buttons { gap: 10px; padding: 16px 20px; }
             .nav-btn { padding: 10px 20px; font-size: 14px; border-radius: 5px; }
 
-            .icon-section { gap: 20px; padding: 30px 25px; }
-            .icon-circle { width: 80px; height: 80px; margin-bottom: 10px; }
-            .icon-circle svg { width: 40px; height: 40px; }
+            .icon-section { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 30px 25px; }
+            .icon-circle { width: 75px; height: 75px; margin-bottom: 10px; }
+            .icon-circle svg { width: 36px; height: 36px; }
             .icon-label { font-size: 13px; }
 
             .calendar-section { padding: 25px; }
@@ -268,24 +307,23 @@
                 max-width: 100%;
             }
 
-            .header { padding: 16px 30px; font-size: 17px; }
+            .header { padding: 16px 30px; font-size: 22px; }
 
-            .logo-section { padding: 35px 40px; }
-            .logo-section h1 { font-size: 42px; letter-spacing: 2px; }
-
+            .logo-section { padding: 25px 30px; }
+            .logo-section img { width: 80%; }
             .slogan { padding: 25px 40px; }
-            .slogan p { font-size: 17px; line-height: 1.8; }
+            .slogan p { font-size: 20px; line-height: 1.8; }
 
             .nav-buttons { gap: 12px; padding: 20px 30px; }
             .nav-btn { padding: 12px 28px; font-size: 15px; border-radius: 6px; }
 
             .icon-section {
-                grid-template-columns: repeat(6, 1fr);
+                grid-template-columns: repeat(8, 1fr);
                 gap: 25px;
                 padding: 35px 30px;
             }
-            .icon-circle { width: 90px; height: 90px; margin-bottom: 12px; }
-            .icon-circle svg { width: 44px; height: 44px; }
+            .icon-circle { width: 85px; height: 85px; margin-bottom: 12px; }
+            .icon-circle svg { width: 42px; height: 42px; }
             .icon-label { font-size: 14px; }
 
             .calendar-map-row {
@@ -323,14 +361,13 @@
         @media (min-width: 1400px) {
             .page-wrapper { max-width: 100%; }
 
-            .logo-section h1 { font-size: 48px; }
-
-            .slogan p { font-size: 18px; }
+            .logo-section img { width: 80%; }
+            .slogan p { font-size: 22px; }
 
             .nav-btn { padding: 14px 32px; font-size: 16px; }
 
-            .icon-circle { width: 100px; height: 100px; }
-            .icon-circle svg { width: 50px; height: 50px; }
+            .icon-circle { width: 95px; height: 95px; }
+            .icon-circle svg { width: 46px; height: 46px; }
             .icon-label { font-size: 15px; }
 
             .calendar-table { font-size: 17px; }
@@ -346,16 +383,19 @@
         빠른 진료 · 빠른 예약 <a href="tel:031-8027-8758">031-8027-8758</a>
     </header>
 
-    <!-- 로고 -->
-    <div class="logo-section">
-        <h1>안내과 <span>의원</span></h1>
-    </div>
+    <!-- 배경 이미지 래퍼 -->
+    <div class="bg-wrapper">
 
-    <!-- 슬로건 -->
-    <div class="slogan">
-        <p><span class="highlight">정직한 진료, 확실한 효과</span></p>
-        <p>대학병원으로부터 내시경 검진의뢰 받는 의료원</p>
-        <p>과잉진료 없는 의료원</p>
+    <!-- 로고 + 슬로건 -->
+    <div class="logo-slogan-row">
+        <div class="logo-section">
+            <img src="images/logo.jpg" alt="안내과 의원">
+        </div>
+        <div class="slogan">
+            <p><span class="highlight">정직한 진료, 확실한 효과</span></p>
+            <p>대학병원의 내시경 검진 의뢰를 받는 검증된 실력</p>
+            <p>과잉진료 없는 의원</p>
+        </div>
     </div>
 
     <!-- 네비게이션 -->
@@ -367,43 +407,57 @@
         <a href="location.html" class="nav-btn">오시는길</a>
     </nav>
 
+    </div><!-- bg-wrapper 끝 -->
+
     <!-- 아이콘 섹션 -->
     <div class="icon-section">
         <a href="endoscopy.html" class="icon-item">
             <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 2c-1.1 0-2 .9-2 2v2H5v2h2v2H5v2h2v2H5v2h2v2c0 1.1.9 2 2 2h1v-2h2v2h1c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V8h2V6h-2V4c0-1.1-.9-2-2-2H9zm0 2h4v6h-4V4zm1 8h2v2h-2v-2zm0 4h2v2h-2v-2z"/></svg>
             </div>
             <span class="icon-label">위·대장<br>내시경</span>
         </a>
+        <a href="general.html" class="icon-item">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24"><path d="M19.8 18.4L14 10.67V6.5l1.35-1.69c.26-.33.03-.81-.39-.81H9.04c-.42 0-.65.48-.39.81L10 6.5v4.17L4.2 18.4c-.49.66-.02 1.6.8 1.6h14c.82 0 1.29-.94.8-1.6z"/></svg>
+            </div>
+            <span class="icon-label">일반<br>내과</span>
+        </a>
         <a href="checkup.html" class="icon-item">
             <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-2 16l-4-4 1.41-1.41L12 15.17l4.59-4.58L18 12l-6 6zm0-8V3.5L18.5 10H12z"/></svg>
             </div>
-            <span class="icon-label">일반<br>건강검진</span>
+            <span class="icon-label">건강검진<br>(국가/직장)</span>
         </a>
         <a href="cancer.html" class="icon-item">
             <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M19.5 6c-1.31 0-2.37 1.01-2.48 2.3-1.88-.5-2.84-1.8-5.02-1.8-2.19 0-3.14 1.3-5.02 1.8C6.87 7.01 5.81 6 4.5 6 3.12 6 2 7.12 2 8.5c0 1.38 1.12 2.5 2.5 2.5.2 0 .38-.03.56-.07-.04.18-.06.37-.06.57 0 3.31 3.13 6 7 6s7-2.69 7-6c0-.2-.02-.39-.06-.57.18.04.37.07.56.07 1.38 0 2.5-1.12 2.5-2.5C22 7.12 20.88 6 19.5 6z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 15l-4-4 1.41-1.41L11 14.17l5.59-5.59L18 10l-7 7z"/></svg>
             </div>
-            <span class="icon-label">5대암<br>검진</span>
+            <span class="icon-label">5대<br>암검진</span>
+        </a>
+        <a href="ultrasound.html" class="icon-item">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h2v2H5v-2zm4-4c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm-2 0c0 2.76 2.24 5 5 5s5-2.24 5-5-2.24-5-5-5-5 2.24-5 5z"/></svg>
+            </div>
+            <span class="icon-label">초음파</span>
+        </a>
+        <a href="xray.html" class="icon-item">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24"><path d="M18 4h-4l-1-2h-2L10 4H6C4.9 4 4 4.9 4 6v12c0 1.1.9 2 2 2h4v-2H8v-2h3v-1H7v-2h4v-1H8v-2h3V9H7V7h4V6h2v1h4v2h-4v1h3v2h-4v1h4v2h-4v1h3v2h-2v2h4c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+            </div>
+            <span class="icon-label">X선<br>검사</span>
         </a>
         <a href="vaccine.html" class="icon-item">
             <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M11 2v4H8l4 4 4-4h-3V2h-2zm-2 8H4v2h16v-2h-5l-1.5 1.5L12 10l-1.5 1.5L9 10zm-4 4v6c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-6H5zm4 2h6v1H9v-1zm0 2.5h6v1H9v-1z"/></svg>
             </div>
             <span class="icon-label">예방접종</span>
         </a>
         <a href="nutrition.html" class="icon-item">
             <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16h.06zM1 21.99h1.66l.24-2H1v2zm2.06-4h1.9l.24-2H3.06l-.24 2zm14.88 4h.06V11l-3 1.32v9.67h2.94zM6.06 21.99H8l.24-2H6.3l-.24 2zm0-4h1.9l.24-2H6.3l-.24 2zm-2-4h1.9l.24-2H4.3l-.24 2zm4 4h1.9l.24-2h-1.9l-.24 2zm0-4h1.9l.24-2h-1.9l-.24 2zm-2-4h1.9l.24-2h-1.9l-.24 2zm4 0h1.9l.24-2h-1.9l-.24 2zm0 4h1.9l.24-2h-1.9l-.24 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M13 2h-2v6H9v2h2v2H9v2h2v6h2v-6h2v-2h-2v-2h2V8h-2V2zM7 8c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2v6h2v-6c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2H7zm12 0h-2v6h-1v8h4v-8h-1V8z"/></svg>
             </div>
-            <span class="icon-label">영양수액</span>
-        </a>
-        <a href="license.html" class="icon-item">
-            <div class="icon-circle">
-                <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
-            </div>
-            <span class="icon-label">운전면허<br>적성검사</span>
+            <span class="icon-label">수액</span>
         </a>
     </div>
 
