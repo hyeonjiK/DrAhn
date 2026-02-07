@@ -100,6 +100,29 @@
         .label-gangil { top: 45%; left: 15px; }
         .label-sangil { bottom: 30px; left: 20px; }
 
+        .map-link {
+            display: block;
+            text-decoration: none;
+        }
+        .map-link .map-section {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .map-link:hover .map-section {
+            opacity: 0.9;
+        }
+        .map-open-hint {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(45,140,140,0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
         /* 주소 바 */
         .address-bar {
             background: #2d8c8c;
@@ -158,6 +181,33 @@
             font-size: 8px;
         }
 
+        .transport-sub {
+            padding-left: 33px;
+            margin-top: 2px;
+        }
+        .transport-sub li {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.7;
+            list-style: none;
+            padding-left: 0;
+        }
+        .transport-sub li::before {
+            display: none;
+        }
+
+        .bus-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-right: 4px;
+            font-weight: 500;
+        }
+        .bus-tag.normal { background: #e8f5e9; color: #2e7d32; }
+        .bus-tag.express { background: #e3f2fd; color: #1565c0; }
+        .bus-tag.village { background: #fff3e0; color: #e65100; }
+
         .highlight-text {
             color: #2d8c8c;
             font-weight: bold;
@@ -201,6 +251,8 @@
             .transport-section { padding: 25px 20px; }
             .transport-title h3 { font-size: 16px; }
             .transport-list li { font-size: 14px; }
+            .transport-sub li { font-size: 13px; }
+            .bus-tag { font-size: 12px; }
             .home-btn { margin: 20px; padding: 16px; font-size: 16px; }
             .footer { padding: 20px 25px; font-size: 13px; }
         }
@@ -220,6 +272,8 @@
             .transport-section { padding: 35px 40px; }
             .transport-title h3 { font-size: 18px; }
             .transport-list li { font-size: 15px; }
+            .transport-sub li { font-size: 14px; }
+            .bus-tag { font-size: 13px; }
             .home-btn { margin: 20px 40px; padding: 18px; font-size: 17px; }
             .footer { padding: 25px 40px; font-size: 14px; }
         }
@@ -238,21 +292,25 @@
     </header>
 
     <!-- 지도 섹션 -->
-    <div class="map-section">
-        <div class="map-placeholder">
-            <span class="map-label label-misa">미사역</span>
-            <span class="map-label label-gangil">강일역</span>
-            <span class="map-label label-sangil">상일IC</span>
+    <a href="https://map.naver.com/v5/search/%EC%95%88%EB%82%B4%EA%B3%BC%EC%9D%98%EC%9B%90%20%ED%95%98%EB%82%A8" target="_blank" rel="noopener" class="map-link">
+        <div class="map-section">
+            <div class="map-placeholder">
+                <span class="map-label label-misa">미사역</span>
+                <span class="map-label label-gangil">강일역</span>
+                <span class="map-label label-sangil">상일IC</span>
 
-            <div class="map-marker">
-                <div class="marker-box">
-                    <h3>안내과의원</h3>
-                    <span>골드프라자 5층</span>
+                <div class="map-marker">
+                    <div class="marker-box">
+                        <h3>안내과의원</h3>
+                        <span>골드프라자 5층</span>
+                    </div>
+                    <div class="marker-pin"></div>
                 </div>
-                <div class="marker-pin"></div>
+
+                <div class="map-open-hint">네이버 지도에서 보기 ▶</div>
             </div>
         </div>
-    </div>
+    </a>
 
     <!-- 주소 바 -->
     <div class="address-bar">
@@ -261,39 +319,67 @@
 
     <!-- 교통 안내 섹션 -->
     <div class="transport-section">
+
+        <!-- 대중교통 -->
         <div class="transport-item">
             <div class="transport-title">
                 <span class="dot"></span>
-                <h3>대중 교통</h3>
+                <h3>대중교통</h3>
             </div>
+
+            <!-- 버스 -->
             <ul class="transport-list">
-                <li>버스 <span class="highlight-text">9303</span> 센트럴자이 하차</li>
-                <li>버스 이용 시 센트럴자이 정류장 하차</li>
-                <li>미사역에서 도보 15분</li>
+                <li>버스 이용 시</li>
+            </ul>
+            <ul class="transport-list" style="margin-top:4px;">
+                <li>하남고용센터, 센트럴자이, 더샵센트럴포레 하차 후 도보 3분</li>
+            </ul>
+            <ul class="transport-sub">
+                <li><span class="bus-tag normal">일반</span> 87번</li>
+                <li><span class="bus-tag express">직행</span> 9301, 9303, 9303-1, 9304</li>
+                <li><span class="bus-tag village">마을</span> 미사 01번</li>
+            </ul>
+            <ul class="transport-list" style="margin-top:8px;">
+                <li>아란티움 26단지 e편한세상 하차 후 도보 8~10분</li>
+            </ul>
+            <ul class="transport-sub">
+                <li><span class="bus-tag normal">일반</span> 81, 112-5</li>
+                <li><span class="bus-tag village">마을</span> 미사 05번</li>
+            </ul>
+
+            <!-- 지하철 -->
+            <ul class="transport-list" style="margin-top:8px;">
+                <li>지하철 이용 시</li>
+            </ul>
+            <ul class="transport-sub">
+                <li>5호선 미사역 하차 도보 15~20분</li>
             </ul>
         </div>
 
+        <!-- 자가용 및 택시 -->
         <div class="transport-item">
             <div class="transport-title">
                 <span class="dot"></span>
-                <h3>택시, 자가용</h3>
+                <h3>자가용 및 택시 이용 시</h3>
             </div>
             <ul class="transport-list">
-                <li>상일IC에서 미사대로 방면으로 10분</li>
-                <li>강일역에서 5분 거리</li>
+                <li>상일IC에서 하남·미사 방면으로 진입해 미사강변도시 쪽으로 이동</li>
+                <li>팔당대교 남단에서 미사대로, 하남 미사지구 방면으로 진입해 미사강변도시 쪽으로 이동</li>
             </ul>
         </div>
 
+        <!-- 주차 -->
         <div class="transport-item">
             <div class="transport-title">
                 <span class="dot"></span>
                 <h3>주차 <span style="font-size:12px; color:#2d8c8c;">(주차 지원합니다)</span></h3>
             </div>
             <ul class="transport-list">
-                <li>건물 지하주차장</li>
+                <li>본 의료원 건물 주차장</li>
                 <li>하남돼지집 주차장</li>
             </ul>
         </div>
+
     </div>
 
     <!-- 홈 버튼 -->
