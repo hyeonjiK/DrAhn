@@ -152,6 +152,15 @@
             border-radius: 50%;
             margin: 2px auto 0;
         }
+        .calendar-day .closed-label {
+            display: block;
+            font-size: 7px;
+            color: #e74c3c;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 1px;
+        }
+
         .calendar-day.today .day-num {
             background: #2d8c8c;
             color: #fff;
@@ -294,6 +303,14 @@
     var displayYear = currentDate.getFullYear();
     var displayMonth = currentDate.getMonth();
 
+    // 특별 휴진일 (비대면진료 표시) - 'YYYY-MM-DD' 형식
+    var closedDays = ['2026-02-16', '2026-02-17', '2026-02-18'];
+
+    function isClosedDay(year, month, day) {
+        var key = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        return closedDays.indexOf(key) !== -1;
+    }
+
     function isOpenDay(year, month, day) {
         var date = new Date(year, month, day);
         var dayOfWeek = date.getDay(); // 0=일, 1=월, ..., 6=토
@@ -343,13 +360,18 @@
             var isToday = today.getFullYear() === displayYear && today.getMonth() === displayMonth && today.getDate() === d;
             if (isToday) classes.push('today');
 
-            if (isOpenDay(displayYear, displayMonth, d)) classes.push('open');
+            var closed = isClosedDay(displayYear, displayMonth, d);
+            if (!closed && isOpenDay(displayYear, displayMonth, d)) classes.push('open');
 
             if (isToday) {
-                html += '<div class="' + classes.join(' ') + '"><span class="day-num">' + d + '</span></div>';
+                html += '<div class="' + classes.join(' ') + '"><span class="day-num">' + d + '</span>';
             } else {
-                html += '<div class="' + classes.join(' ') + '">' + d + '</div>';
+                html += '<div class="' + classes.join(' ') + '">' + d;
             }
+            if (closed) {
+                html += '<span class="closed-label">비대면진료</span>';
+            }
+            html += '</div>';
         }
 
         daysEl.innerHTML = html;
