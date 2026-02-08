@@ -178,9 +178,8 @@
         }
 
         .map-section {
-            background: #fff;
+            background: transparent;
             padding: 15px;
-            border-top: 1px solid #eee;
         }
         .map-section a { display: block; }
         .map-section img {
@@ -292,7 +291,7 @@
 
             .image-map-row {
                 flex-direction: row;
-                align-items: center;
+                align-items: stretch;
             }
             .side-image {
                 display: flex;
@@ -302,10 +301,12 @@
                 padding: 30px 20px;
             }
             .side-image img {
-                max-height: 350px;
+                max-width: 90%;
+                max-height: 280px;
                 width: auto;
-                max-width: 100%;
+                height: auto;
                 border-radius: 8px;
+                object-fit: contain;
             }
             .map-section {
                 flex: 1;
