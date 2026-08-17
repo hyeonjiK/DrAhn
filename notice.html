@@ -334,9 +334,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ─── 관리자 비밀번호 (변경하세요) ───
-var ADMIN_PASSWORD = "ahn8758";
+// ─── 관리자 비밀번호 (해시 처리됨) ───
+const ADMIN_HASH = "b4f615f21235daec54c9354020a1eb97063f27de10b501dff2ea72c442ebda03"; // 해시화된 비밀번호
 
+async function hashPassword(pw) {
+    const msgBuffer = new TextEncoder().encode(pw);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 // ─── 공지사항 불러오기 ───
 async function loadNotices() {
     var listEl = document.getElementById('noticeList');
@@ -422,7 +428,8 @@ document.getElementById('submitNotice').addEventListener('click', async function
     var content = document.getElementById('noticeContent').value.trim();
     var important = document.getElementById('noticeImportant').value === 'yes';
 
-    if (pw !== ADMIN_PASSWORD) {
+    const inputHash = await hashPassword(pw);
+    if (inputHash !== ADMIN_HASH) {
         alert('비밀번호가 틀렸습니다.');
         return;
     }
@@ -460,7 +467,8 @@ document.getElementById('cancelDelete').addEventListener('click', function() {
 document.getElementById('confirmDelete').addEventListener('click', async function() {
     var pw = document.getElementById('deletePw').value;
 
-    if (pw !== ADMIN_PASSWORD) {
+    const inputHash = await hashPassword(pw);
+    if (inputHash !== ADMIN_HASH) {
         alert('비밀번호가 틀렸습니다.');
         return;
     }
