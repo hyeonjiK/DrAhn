@@ -160,6 +160,16 @@
             line-height: 1.2;
             margin-top: 1px;
         }
+        /* 공휴일이지만 정상 진료하는 날 */
+        .calendar-day.holiday { color: #e74c3c; }
+        .calendar-day .normal-label {
+            display: block;
+            font-size: 7px;
+            color: #2d8c8c;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 1px;
+        }
 
         .calendar-day.today .day-num {
             background: #2d8c8c;
@@ -306,9 +316,17 @@
     // 특별 휴진일 (비대면진료 표시) - 'YYYY-MM-DD' 형식
     var closedDays = ['2026-02-16', '2026-02-17', '2026-02-18'];
 
+    // 공휴일이지만 정상 진료하는 날 (휴일 표시 + '정상 진료') - 'YYYY-MM-DD' 형식
+    var holidayOpenDays = ['2026-09-24', '2026-09-25', '2026-09-26', '2026-09-27'];
+
     function isClosedDay(year, month, day) {
         var key = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
         return closedDays.indexOf(key) !== -1;
+    }
+
+    function isHolidayOpenDay(year, month, day) {
+        var key = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        return holidayOpenDays.indexOf(key) !== -1;
     }
 
     function isOpenDay(year, month, day) {
@@ -361,7 +379,9 @@
             if (isToday) classes.push('today');
 
             var closed = isClosedDay(displayYear, displayMonth, d);
-            if (!closed && isOpenDay(displayYear, displayMonth, d)) classes.push('open');
+            var holidayOpen = isHolidayOpenDay(displayYear, displayMonth, d);
+            if (holidayOpen) classes.push('holiday');
+            if (!closed && (holidayOpen || isOpenDay(displayYear, displayMonth, d))) classes.push('open');
 
             if (isToday) {
                 html += '<div class="' + classes.join(' ') + '"><span class="day-num">' + d + '</span>';
@@ -370,6 +390,8 @@
             }
             if (closed) {
                 html += '<span class="closed-label">비대면진료</span>';
+            } else if (holidayOpen) {
+                html += '<span class="normal-label">정상 진료</span>';
             }
             html += '</div>';
         }
